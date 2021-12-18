@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Biddy is Ownable {
+contract BidAny is Ownable {
 
     // wallet -> erc721 -> bid price
     mapping(address => mapping(address => uint)) public bids;
@@ -21,7 +21,7 @@ contract Biddy is Ownable {
         feeReceiver = _feeReceiver;
     }
 
-    function makeBid(address _erc721, uint _price) public payable {
+    function makeBid(address _erc721, uint _price) external payable {
         uint bid = bids[msg.sender][_erc721];
         require(_price != bid, "Cannot bid the same.");
         if (_price > bid) {
@@ -34,7 +34,7 @@ contract Biddy is Ownable {
         emit NewBid(msg.sender, _price, _erc721);
     }
 
-    function takeBid(address _erc721, uint256 _tokenId, address _bidder) public {
+    function takeBid(address _erc721, uint256 _tokenId, address _bidder) external {
         require(
             IERC721(_erc721).ownerOf(_tokenId) == msg.sender,
             "You don't own this NFT"
@@ -53,13 +53,13 @@ contract Biddy is Ownable {
         }
     }
 
-    function setFee(uint _fee) public onlyOwner {
+    function setFee(uint _fee) external onlyOwner {
         // Max fee 10%
         require(_fee < 101);
         fee = _fee;
     }
 
-    function setFeeReceiver(address payable _feeReceiver) public onlyOwner {
+    function setFeeReceiver(address payable _feeReceiver) external onlyOwner {
         feeReceiver = _feeReceiver;
     }
 }

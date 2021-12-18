@@ -6,13 +6,16 @@ const erc721abi = require("../abis/ERC721.json");
 const erc721address = "0x763864F1A74D748015f45F7c1181B60E62E40804";
 const impersonatedAddress = "0xEF330d6F0B4375c39D8eD3d0D690a5B69e9EcD0c";
 
-describe("Biddy contract", function () {
+describe("BidAny contract", function () {
   before(async function () {
-    this.Marketplace = await ethers.getContractFactory("Biddy");
+    this.Marketplace = await ethers.getContractFactory("BidAny");
     [this.account1, this.account2, this.account3] = await ethers.getSigners();
     marketplace = await this.Marketplace.deploy(this.account1.address);
     await marketplace.deployed();
-    this.marketplace = await ethers.getContractAt("Biddy", marketplace.address);
+    this.marketplace = await ethers.getContractAt(
+      "BidAny",
+      marketplace.address
+    );
     await hre.network.provider.request({
       method: "hardhat_impersonateAccount",
       params: [impersonatedAddress],
