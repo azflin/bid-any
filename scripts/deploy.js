@@ -1,7 +1,7 @@
 require("@nomiclabs/hardhat-ethers");
 const { ethers } = require("hardhat");
 
-const feeReceiver = "0xcd6DD8D6A5Afb4AEd5eEaD9Db3551CBA70fa7727";
+const feeReceiver = "0xEF330d6F0B4375c39D8eD3d0D690a5B69e9EcD0c";
 
 async function main() {
   const Marketplace = await ethers.getContractFactory("BidAny");
