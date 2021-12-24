@@ -34,13 +34,13 @@ contract BidAny is Ownable {
         emit NewBid(msg.sender, _price, _erc721);
     }
 
-    function takeBid(address _erc721, uint256 _tokenId, address _bidder) external {
+    function takeBid(address _erc721, uint256 _tokenId, address _bidder, uint _minBid) external {
         require(
             IERC721(_erc721).ownerOf(_tokenId) == msg.sender,
             "You don't own this NFT"
         );
         uint bid = bids[_bidder][_erc721];
-        require(bid > 0, "There is no bid.");
+        require(bid >= _minBid, "minBid not met");
         // Clear out bid price
         bids[_bidder][_erc721] = 0;
         emit NewBid(_bidder, 0, _erc721);

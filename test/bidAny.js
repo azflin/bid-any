@@ -122,7 +122,12 @@ describe("BidAny contract", function () {
     const balanceBeforeTakeBid = await ethers.provider.getBalance(
       this.impersonatedSigner.address
     );
-    await this.marketplace.takeBid(erc721address, 2725, this.account1.address);
+    await this.marketplace.takeBid(
+      erc721address,
+      2725,
+      this.account1.address,
+      ethers.utils.parseEther("0.5")
+    );
     const balanceAfterTakeBid = await ethers.provider.getBalance(
       this.impersonatedSigner.address
     );
@@ -141,15 +146,15 @@ describe("BidAny contract", function () {
   it("should not takeBid if you don't own NFT", async function () {
     let marketplace = this.marketplace.connect(this.impersonatedSigner);
     await expect(
-      marketplace.takeBid(erc721address, 2725, this.account1.address)
+      marketplace.takeBid(erc721address, 2725, this.account1.address, 0)
     ).to.be.revertedWith("You don't own this NFT");
   });
 
   it("should not takeBid there is no bid", async function () {
     let marketplace = this.marketplace.connect(this.account1);
     await expect(
-      marketplace.takeBid(erc721address, 2725, this.account2.address)
-    ).to.be.revertedWith("There is no bid");
+      marketplace.takeBid(erc721address, 2725, this.account2.address, 1)
+    ).to.be.revertedWith("minBid not met");
   });
 
   it("should not let you bid the same", async function () {
@@ -181,7 +186,12 @@ describe("BidAny contract", function () {
     let account1BalanceBefore = await ethers.provider.getBalance(
       this.account1.address
     );
-    await marketplace.takeBid(erc721address, 2725, this.account2.address);
+    await marketplace.takeBid(
+      erc721address,
+      2725,
+      this.account2.address,
+      ethers.utils.parseEther("1")
+    );
     // Account 3 is the fee receiver and should have rececived 0.95
     let account3BalanceAfter = await ethers.provider.getBalance(
       this.account3.address
