@@ -27,6 +27,10 @@ module.exports = {
       url: process.env.RINKEBY_URL,
       accounts: [process.env.PRIVATE_KEY],
     },
+    mainnet: {
+      url: "https://mainnet.infura.io/v3/6e758ef5d39a4fdeba50de7d10d08448", // or any other JSON-RPC provider
+      accounts: [process.env.PRIVATE_KEY],
+    },
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY,
